@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run lint:diff -- --fix && npm run lint:diff -- --no-fix --max-warnings 0
