@@ -1,5 +1,5 @@
 import { toCommonError } from "../utils/errorCommon";
-import { Transaction, User } from "./types";
+import { CreateUserType, Transaction, User } from "./types";
 
 let token = "";
 const domain = process.env.NODE_ENV === 'production' ? "/cv/backoffice/" : 'http://localhost:3333/';
@@ -24,6 +24,8 @@ export const api = {
     transactionsMy: createHttp<PaginationOptions, Paginatted<Transaction>>("/transactions/my", GET),
     deleteTransaction: createHttp<string, Transaction>("/transactions/", DELETE),
     deleteUser: createHttp<string, User>("/users/", DELETE),
+    createUser: createHttp<CreateUserType, User>("/users", POST),
+    createAdmin: createHttp<CreateUserType, User>("/users/admin", POST),
 };
 
 function createHttp<TOptions = void, TResponse = void>(path: string, method = POST) {

@@ -4,18 +4,23 @@ import { TransactionList } from "./TransactionList/TransactionList";
 import type { Transaction, User } from "../api/types";
 import { ModalWindow } from "./ModalWindow";
 import { UserView } from "./UserView/UserView";
-import { Button, Dropdown, type TablePaginationConfig } from "antd";
+import { Button, Dropdown, Layout, Space, type TablePaginationConfig } from "antd";
 import { usePagination } from "../hooks/pagination";
 import { getMenuPageSize } from "./MenuItemComponent";
+import { CreateTransaction } from "./CreateTransaction/CreateTransaction";
 
 type PageTransactionsProps = {
   endpoint: 'transactions' | 'transactionsMy';
 }
 
+const { Header } = Layout;
+
+// todo: create factory component to handle full same logic
 export function PageTransactions({ endpoint }: PageTransactionsProps) {
   const { page, limit, setLimit, fetch, loading, data, setPage } = usePagination<Transaction>(endpoint);
   const { data: deleteData, fetch: deleteDoc } = useApi('deleteTransaction');
   const [userToView, setUserToView] = useState<User | void>();
+  const [openCreateUser, setOpenCreate] = useState(false);
   const [deleteId, setDeleteId] = useState<string | void>();
 
   useEffect(() => {
@@ -28,9 +33,18 @@ export function PageTransactions({ endpoint }: PageTransactionsProps) {
   return <>
     {userToView ?
       <ModalWindow open={!!userToView} title={`User profile ${userToView.email}`} handleOk={handleOk}><UserView user={userToView} /></ModalWindow> : null}
-    <Dropdown menu={getMenuPageSize(onLimitClick)} placement="topRight">
-      <Button>{limit} records per page</Button>
-    </Dropdown>
+    {openCreateUser ?
+      <ModalWindow open={!!openCreateUser} title={`Create transaction`} handleOk={handleCreateOk} onClose={() => setOpenCreate(false)}><CreateTransaction /></ModalWindow> : null}
+    <Layout>
+      <Header>
+        <Space>
+          <Dropdown menu={getMenuPageSize(onLimitClick)} placement="topRight">
+            <Button>{limit} records per page</Button>
+          </Dropdown>
+          <Button type='primary' onClick={() => setOpenCreate(true)}>Create</Button>
+        </Space>
+      </Header>
+    </Layout>
     {data
       ? <TransactionList
         data={data.items ?? []}
@@ -57,6 +71,10 @@ export function PageTransactions({ endpoint }: PageTransactionsProps) {
 
   function onChnageTable(paginationConfig: TablePaginationConfig) {
     setPage(paginationConfig.current ?? 1);
+  }
+
+  function handleCreateOk() {
+    setOpenCreate(false);
   }
 
   function deleteClick(transaction: Transaction) {

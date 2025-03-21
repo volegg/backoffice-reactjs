@@ -10,14 +10,14 @@ type UserListProps = {
   data: User[];
   loading: boolean;
   selectUser: (user: User) => void;
-  deleteClick: (transaction: User) => void;
+  deleteClick: (user: User) => void;
   pagination?: { page: number; pageSize: number; total: number };
   onChangeTable: (paginationConfig: TablePaginationConfig) => void;
 }
 
 const { Link } = Typography;
 
-export function UserList({ data, loading, pagination, onChangeTable, selectUser }: UserListProps) {
+export function UserList({ data, loading, pagination, onChangeTable, selectUser, deleteClick }: UserListProps) {
   const columns: TableProps<DataType>['columns'] = [
     {
       title: 'Email',
@@ -85,8 +85,8 @@ export function UserList({ data, loading, pagination, onChangeTable, selectUser 
     {
       title: 'Action',
       key: 'action',
-      render: (_,) => (
-        <Button color="danger"><DeleteOutlined /></Button>
+      render: (_, user) => (
+        <Button color="danger" onClick={() => deleteClick(user)}><DeleteOutlined /></Button>
       ),
     },
   ];

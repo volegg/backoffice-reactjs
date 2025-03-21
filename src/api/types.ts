@@ -10,6 +10,11 @@ export type User = {
   updatedAt: string;
 }
 
+export type CreateUserType = Omit<User, '_id' | 'createdAt' | 'updatedAt' | 'permissions'> & {
+  roles: AppRoles[];
+  password: string;
+}
+
 export type Transaction = {
   _id: string;
   type: string;

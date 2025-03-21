@@ -1,4 +1,4 @@
-import { Form, Input, Button, Alert, Typography } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { AuthType } from "../const/auth";
 import { useAuth } from "../hooks/useAuth";

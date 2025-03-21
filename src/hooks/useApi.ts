@@ -12,6 +12,8 @@ export type API = {
   transactionsMy: GetOptionType<typeof api.transactionsMy>;
   deleteTransaction: GetOptionType<typeof api.deleteTransaction>;
   deleteUser: GetOptionType<typeof api.deleteUser>;
+  createUser: GetOptionType<typeof api.createUser>;
+  createAdmin: GetOptionType<typeof api.createAdmin>;
 }
 
 export type APIPagination = Pick<API, 'transactions' | 'transactionsMy' | 'users'>
@@ -24,6 +26,8 @@ type APIReturn = {
   transactionsMy: ReturnType<typeof api.transactionsMy>;
   deleteTransaction: ReturnType<typeof api.deleteTransaction>;
   deleteUser: ReturnType<typeof api.deleteUser>;
+  createUser: ReturnType<typeof api.createUser>;
+  createAdmin: ReturnType<typeof api.createAdmin>;
 }
 
 export function useApi<TAlias extends keyof API>(alias: TAlias) {
