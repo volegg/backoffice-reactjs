@@ -12,3 +12,14 @@ type CommonError = {
   messages: string[];
   statusCode?: number;
 }
+
+type PaginationOptions = {
+  page: number;
+  limit: number;
+}
+
+type Paginatted<T> = PaginationOptions & {
+  items: T[];
+  total: number;
+  totalPages: number;
+}

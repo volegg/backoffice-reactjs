@@ -8,7 +8,7 @@ const basePath = "api";
 const GET = 'GET';
 const POST = 'POST';
 const PATCH = 'PATCH';
-
+const DELETE = 'DELETE';
 
 export const api = {
     setToken(jwt: string) {
@@ -19,9 +19,11 @@ export const api = {
     signup: createHttp<SignupOptions, SignupResponse>("/auth/register"),
     me: createHttp<void, User>("/auth/me", GET),
     updateMe: createHttp<Partial<User>, User>("/users/me", PATCH),
-    users: createHttp<void, User[]>("/users", GET),
-    transactions: createHttp<void, Transaction[]>("/transactions", GET),
-    transactionsMy: createHttp<void, Transaction[]>("/transactions/my", GET),
+    users: createHttp<PaginationOptions, Paginatted<User>>("/users", GET),
+    transactions: createHttp<PaginationOptions, Paginatted<Transaction>>("/transactions", GET),
+    transactionsMy: createHttp<PaginationOptions, Paginatted<Transaction>>("/transactions/my", GET),
+    deleteTransaction: createHttp<string, Transaction>("/transactions/", DELETE),
+    deleteUser: createHttp<string, User>("/users/", DELETE),
 };
 
 function createHttp<TOptions = void, TResponse = void>(path: string, method = POST) {
@@ -41,6 +43,8 @@ function createHttp<TOptions = void, TResponse = void>(path: string, method = PO
                     }, "");
                 } else if ([POST, PATCH].includes(method) && options) {
                     body = JSON.stringify(options);
+                } else if (method === DELETE && options) {
+                    path += options;
                 }
             } catch (ex) {
                 reject(toCommonError(ex));
