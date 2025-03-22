@@ -11,6 +11,12 @@
     "react-router": "^7.4.0"
   },
   "scripts": {
+    "prepare": "husky install",
+    "pre-commit": "npm run type-check && npm run lint:diff -- --fix --max-warnings 0",
+    "pre-push": "npm run test",
+    "type-check": "tsc --noEmit --project tsconfig.json",
+    "lint": "eslint ./src/**/*.{ts,tsx}",
+    "lint:diff": "eslint $(git diff --name-only --diff-filter=d --relative HEAD -- './src/**/*.{ts,tsx}' | xargs)",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -45,9 +51,13 @@
     "@types/node": "16.18.126",
     "@types/react": "19.0.11",
     "@types/react-dom": "19.0.4",
+    "eslint": "8.57.1",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-react": "7.37.4",
     "husky": "9.1.7",
     "react-scripts": "5.0.1",
     "typescript": "4.9.5",
+    "typescript-eslint": "^8.27.0",
     "web-vitals": "2.1.4"
   }
 }

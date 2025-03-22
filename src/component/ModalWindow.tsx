@@ -33,4 +33,4 @@ export function ModalWindow({ title, children, open, onOk, close, cancelButton, 
   function modalClose() {
     close();
   }
-};
+}

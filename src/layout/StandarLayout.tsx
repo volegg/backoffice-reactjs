@@ -65,4 +65,4 @@ export function StandarLayout({ children }: LayoutProps) {
       </Footer>
     </Layout>
   );
-};
+}

@@ -1,9 +1,9 @@
-import { AppRoles } from "../const/roles";
-import { useSelector } from "../store/hooks";
-import { selectLoggedUser } from "../store/user/selectors";
-import { AdminRoutes } from "./AdminRoutes";
-import { PublicRoutes } from "./Public";
-import { StandartRoutes } from "./StandartRoutes";
+import { AppRoles } from '../const/roles';
+import { useSelector } from '../store/hooks';
+import { selectLoggedUser } from '../store/user/selectors';
+import { AdminRoutes } from './AdminRoutes';
+import { PublicRoutes } from './Public';
+import { StandartRoutes } from './StandartRoutes';
 
 export function Routes() {
   const user = useSelector(selectLoggedUser);

@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router";
-import { AuthLayout } from "../layout/AuthLayout";
-import { AppRoute } from "../const/routes";
-import { AuthComponent } from "../component/AuthComponent";
-import { AuthType } from "../const/auth";
+import { Route, Routes } from 'react-router';
+import { AuthLayout } from '../layout/AuthLayout';
+import { AppRoute } from '../const/routes';
+import { AuthComponent } from '../component/AuthComponent';
+import { AuthType } from '../const/auth';
 
 export function PublicRoutes() {
   return <AuthLayout>

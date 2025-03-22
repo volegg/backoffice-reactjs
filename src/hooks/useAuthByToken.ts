@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { api } from "../api/api";
-import { toCommonError } from "../utils/errorCommon";
-import { useDispatch } from "../store/hooks";
-import { userSlice } from "../store/user/reducer";
-import { storageToken } from "../utils/storage/items";
-import { useLocation, useNavigate } from "react-router";
-import { AppRoute } from "../const/routes";
-import type { User } from "../api/types";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { api } from '../api/api';
+import { toCommonError } from '../utils/errorCommon';
+import { useDispatch } from '../store/hooks';
+import { userSlice } from '../store/user/reducer';
+import { storageToken } from '../utils/storage/items';
+import { useLocation, useNavigate } from 'react-router';
+import { AppRoute } from '../const/routes';
+import type { User } from '../api/types';
 
 export function useAuthByToken() {
   const dispatch = useDispatch();

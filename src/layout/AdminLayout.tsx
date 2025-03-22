@@ -65,4 +65,4 @@ export function AdminLayout({ children }: LayoutProps) {
       </Footer>
     </Layout>
   );
-};
+}

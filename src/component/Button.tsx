@@ -1,7 +1,7 @@
-import { Button as AntdButton } from "antd";
+import { Button as AntdButton } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import type { ReactNode } from "react";
-import type { ButtonType } from "antd/es/button/buttonHelpers";
+import type { ReactNode } from 'react';
+import type { ButtonType } from 'antd/es/button/buttonHelpers';
 
 type ButtonTypes = 'create' | 'edit' | 'primary' | 'delete';
 

@@ -1,4 +1,4 @@
-import { Alert } from "antd"
+import { Alert } from 'antd'
 
 type ErrorComponentProps = {
   messages?: string[],
@@ -7,7 +7,7 @@ type ErrorComponentProps = {
 
 export function ErrorComponent({ messages, onClose }: ErrorComponentProps) {
   return <>{messages && messages.length
-    ? messages.map((message, i) => (<div style={{ marginBottom: "10px" }}>
+    ? messages.map((message, i) => (<div style={{ marginBottom: '10px' }}>
       <Alert key={i} message={message} type="error" showIcon closable onClose={onClose} /></div>)) : null}
   </>
 }

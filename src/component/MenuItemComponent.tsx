@@ -1,12 +1,12 @@
-import { Key, ReactNode } from "react";
-import { type MenuProps, Typography } from "antd";
+import { Key, ReactNode } from 'react';
+import { type MenuProps, Typography } from 'antd';
 import {
   ApartmentOutlined,
   LogoutOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { AppRoute } from "../const/routes";
+import { AppRoute } from '../const/routes';
 
 type MenuItem = Required<MenuProps>['items'][number];
 

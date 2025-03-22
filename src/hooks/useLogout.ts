@@ -1,12 +1,11 @@
-import { useState, useCallback } from "react";
-import { api } from "../api/api";
-import { AuthType } from "../const/auth";
-import { toCommonError } from "../utils/errorCommon";
-import { useDispatch } from "../store/hooks";
-import { userSlice } from "../store/user/reducer";
-import { storageToken } from "../utils/storage/items";
-import { useNavigate } from "react-router";
-import { AppRoute } from "../const/routes";
+import { useState, useCallback } from 'react';
+import { api } from '../api/api';
+import { toCommonError } from '../utils/errorCommon';
+import { useDispatch } from '../store/hooks';
+import { userSlice } from '../store/user/reducer';
+import { storageToken } from '../utils/storage/items';
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../const/routes';
 
 export function useLogout() {
   const dispatch = useDispatch();

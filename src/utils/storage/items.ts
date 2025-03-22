@@ -5,7 +5,7 @@ const localStorageWrapper = createStorageWrapper(getLocalStorage());
 
 export const storageToken = localStorageWrapper("token");
 
-function getKey(key) {
+function getKey(key: string) {
     return `BO_${key}:v${version}`;
 }
 
