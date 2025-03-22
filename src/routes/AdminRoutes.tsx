@@ -1,9 +1,9 @@
-import { Route, Routes } from "react-router";
+import { Routes, Route } from "react-router";
 import { AdminLayout } from "../layout/AdminLayout";
 import { UserProfile } from "../component/UserProfile/UserProfile";
 import { AppRoute } from "../const/routes";
-import { PageUsers } from "../component/PageUsers";
-import { PageTransactions } from "../component/PageTransactions";
+import { PageUsers } from "../component/Page/PageUsers";
+import { PageTransactions } from "../component/Page/PageTransactions";
 
 export function AdminRoutes() {
   return <AdminLayout>

@@ -1,4 +1,4 @@
-const prefix = process.env.NODE_ENV === 'production' ? '/cv/backoffice' : '';
+const prefix = '';
 
 export const AppRoute = {
   landing: prefix + '/',

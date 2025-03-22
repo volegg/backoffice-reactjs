@@ -1,24 +1,36 @@
-import { ReactNode, useState } from 'react';
-import { Button, Modal } from 'antd';
+import type { ReactNode } from 'react';
+import { Modal } from 'antd';
+import { Button } from './Button';
 
-type ModalWindowProps = {
+export type ModalWindowProps = {
   title: string;
   children: ReactNode;
   open: boolean;
-  handleOk: () => void;
-  onClose?: () => void;
-  withFooter?: boolean;
+  onOk?: () => void;
+  close: () => void;
+  okLable?: string;
+  removeOkButton?: boolean;
+  cancelButton?: { label?: string; }
 }
 
-export function ModalWindow({ title, children, open, handleOk, onClose, withFooter = true }: ModalWindowProps) {
-  return (
-    <>
-      <Modal title={title} open={open} onOk={handleOk} onClose={onClose ? onClose : handleOk} onCancel={onClose}
-        footer={withFooter ? [<Button type="primary" onClick={handleOk}>
-          OK
-        </Button>] : []}>
-        {children}
-      </Modal>
-    </>
-  );
+export function ModalWindow({ title, children, open, onOk, close, cancelButton, okLable = 'OK', removeOkButton = false }: ModalWindowProps) {
+  return <Modal title={title} open={open} onOk={modalOk} onClose={modalClose} onCancel={modalClose}
+    footer={<>
+      {removeOkButton ? null : <Button onClick={modalOk}>{okLable}</Button>}
+      {cancelButton ? <Button onClick={modalClose}>{cancelButton.label}</Button> : null}
+    </>}>
+    {children}
+  </ Modal >;
+
+  function modalOk() {
+    if (onOk) {
+      onOk();
+    }
+
+    close();
+  }
+
+  function modalClose() {
+    close();
+  }
 };

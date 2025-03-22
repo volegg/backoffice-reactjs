@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import { StandarLayout } from "../layout/StandarLayout";
 import { AppRoute } from "../const/routes";
 import { UserProfile } from "../component/UserProfile/UserProfile";
-import { PageTransactions } from "../component/PageTransactions";
+import { PageTransactions } from "../component/Page/PageTransactions";
 
 export function StandartRoutes() {
   return <StandarLayout>

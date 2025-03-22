@@ -18,7 +18,7 @@ export type CreateUserType = Omit<User, '_id' | 'createdAt' | 'updatedAt' | 'per
 export type Transaction = {
   _id: string;
   type: string;
-  subType: string[];
+  subType: string;
   amount: number;
   status: string;
   user: User;

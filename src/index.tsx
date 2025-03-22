@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
-import { BrowserRouter } from 'react-router';
+import { HashRouter } from 'react-router';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { getStore } from './store/store';
@@ -18,9 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={getStore()}>
-      <BrowserRouter basename='/'>
+      <HashRouter basename='/'>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </React.StrictMode>
 );

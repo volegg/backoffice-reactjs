@@ -9,10 +9,10 @@ import { useEffect } from "react";
 const { Option } = Select;
 
 type CreateFormProps = {
-  submmitHandler: () => void;
+  submit: () => void;
 }
 
-export function CreateForm({ submmitHandler }: CreateFormProps) {
+export function CreateForm({ submit }: CreateFormProps) {
   const { loading, error, fetch, setError, data } = useApi('createUser');
   const { loading: loadingAdmin, error: errorAdmin, fetch: fetchAdmin, setError: setAdminError, data: adminData } = useApi('createAdmin');
 
@@ -21,7 +21,7 @@ export function CreateForm({ submmitHandler }: CreateFormProps) {
   useEffect(() => {
     if (adminData || data) {
       onCloseError();
-      submmitHandler();
+      submit();
     }
   }, [loadingAdmin, loading, error, errorAdmin]);
 
