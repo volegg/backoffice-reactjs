@@ -1,4 +1,4 @@
-import { AppRoles } from "../const/roles";
+import { AppRoles } from '../const/roles';
 
 export type User = {
   _id: string;

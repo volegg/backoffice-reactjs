@@ -1,16 +1,17 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo, type ReactNode } from 'react';
 import type { TableProps } from 'antd';
-import { toTtitle } from "../../utils/string/toTitle";
+import { toTtitle } from '../../utils/string/toTitle';
 
-export function useTableColumns<DataType extends Object, TKey extends keyof DataType = keyof DataType>(
+export function useTableColumns<DataType extends object, TKey extends keyof DataType = keyof DataType>(
   keys: TKey[],
   renders: Partial<Record<TKey, (value: DataType[TKey], entity: DataType) => ReactNode>> = {},
   extra: TableProps<DataType>['columns'] = [],
+  permissionString = '',
 ) {
-  return useMemo(() => getTableColumns(keys, renders, extra), []);
+  return useMemo(() => getTableColumns(keys, renders, extra), [permissionString]);
 }
 
-function getTableColumns<DataType extends Object, TKey extends keyof DataType = keyof DataType>(
+function getTableColumns<DataType extends object, TKey extends keyof DataType = keyof DataType>(
   keys: TKey[],
   renders: Partial<Record<TKey, (value: DataType[TKey], entity: DataType) => ReactNode>> = {},
   extra: TableProps<DataType>['columns'] = [],
@@ -23,7 +24,7 @@ function getTableColumns<DataType extends Object, TKey extends keyof DataType = 
   return columns;
 }
 
-function getColumns<DataType extends Object, TKey extends keyof DataType = keyof DataType>(keys: TKey[], renders: Partial<Record<TKey, (value: DataType[TKey], entity: DataType) => ReactNode>>) {
+function getColumns<DataType extends object, TKey extends keyof DataType = keyof DataType>(keys: TKey[], renders: Partial<Record<TKey, (value: DataType[TKey], entity: DataType) => ReactNode>>) {
   return keys.reduce((acc, key) => {
     acc[key] = {
       title: toTtitle(String(key)),

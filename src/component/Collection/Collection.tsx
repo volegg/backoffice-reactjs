@@ -28,7 +28,7 @@ export function Collection<DataType extends AnyObject>({
   openModal,
   optionChildren,
 }: CollectonProps<DataType>) {
-  const { pagination, setPagination, fetch, loading: apiLoading, data } = usePagination<DataType>(endpoint);
+  const { pagination, setPagination, setPageSize, fetch, loading: apiLoading, data } = usePagination<DataType>(endpoint);
   const [modalOptions, setModalOptions] = useState<ModalWindowProps | void>();
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function Collection<DataType extends AnyObject>({
     <Layout>
       <Header>
         <Space>
-          <Dropdown menu={getMenuPageSize(onPageSize)} placement="topRight">
+          <Dropdown menu={getMenuPageSize(setPageSize)} placement="topRight">
             <Button>{pagination.pageSize} records per page</Button>
           </Dropdown>
           {optionChildren}
@@ -69,13 +69,6 @@ export function Collection<DataType extends AnyObject>({
       total: total || 1,
       pageSize: pageSize || 1,
       page: current || 1,
-    });
-  }
-
-  function onPageSize(pageSize: number) {
-    setPagination({
-      ...pagination,
-      pageSize,
     });
   }
 }

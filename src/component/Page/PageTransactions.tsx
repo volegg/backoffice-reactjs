@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Tag, Typography } from "antd";
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import type { Transaction, User } from "../../api/types";
 
 import { renderDate } from "../../utils/render/date";
@@ -9,9 +8,11 @@ import { useTableColumns } from "../Collection/useTableColumns";
 import { useApi } from "../../hooks/useApi";
 import { UserView } from "../UserView/UserView";
 import type { ModalWindowProps } from "../ModalWindow";
-import { CreateUser } from "../CreateUser/CreateUser";
 import { TransactionStatus, TransactionSubType } from "../../const/transactions";
 import { Button } from "../Button";
+import { usePermissionCheck } from "../../hooks/usePermissionAccess";
+import { useSelector } from "../../store/hooks";
+import { selectIsAdmin } from "../../store/user/selectors";
 
 type PageTransactionsProps = {
   endpoint: 'transactions' | 'transactionsMy';
@@ -32,10 +33,27 @@ const subTypeColor = {
 const { Link } = Typography;
 
 export function PageTransactions({ endpoint }: PageTransactionsProps) {
+  const isAdmin = useSelector(selectIsAdmin);
+
+  const hasReadUserAccess = usePermissionCheck('user:read');
+  const hasCreateAccess = usePermissionCheck('transaction:create');
+  const hasDeleteAccess = usePermissionCheck('transaction:delete');
+
   const { data: deleteData, fetch: deleteDoc, loading } = useApi('deleteUser');
   const [openModal, setOpenModal] = useState<ModalWindowProps | undefined>();
 
-  const columns = useTableColumns<Transaction>([
+  const actions: Parameters<typeof useTableColumns<Transaction>>[2] = [];
+
+  if (hasDeleteAccess) {
+    actions.push({
+      title: 'Actions',
+      key: 'actions',
+      render: (_, entity) =>
+        <Button type='delete' onClick={() => deleteClick(entity)} />,
+    });
+  }
+
+  const columnName: Parameters<typeof useTableColumns<Transaction>>[0] = [
     "type",
     "subType",
     "amount",
@@ -43,29 +61,29 @@ export function PageTransactions({ endpoint }: PageTransactionsProps) {
     'user',
     "createdAt",
     "updatedAt",
-  ], {
+  ];
+
+  if (!isAdmin || !hasReadUserAccess) {
+    columnName.splice(4, 1);
+  }
+
+  const columns = useTableColumns<Transaction>(columnName, {
     type: (_, entity) => <Link onClick={() => select(entity)}>{entity.type}</Link>,
     subType: (_, { subType }) => <Tag color={subTypeColor[subType]} key={subType}>{subType}</Tag>,
     user: (_, { user }) =>
-      <Typography.Link onClick={() => selectUser(user)}>{user.name}</Typography.Link>,
+      <>{hasReadUserAccess ? <Typography.Link onClick={() => selectUser(user)}>{user.email}</Typography.Link> : user.email}</>,
     status: (_, { status }) =>
       <Tag color={statusColor[status]} key={status}>{status.toUpperCase()}</Tag>,
     createdAt: renderDate,
     updatedAt: renderDate,
-  }, [{
-    title: 'Actions',
-    key: 'actions',
-    render: (_, user) =>
-      <Button type='delete' onClick={() => deleteClick(user)} />,
-  }
-  ]);
+  }, actions, "" + hasReadUserAccess + hasCreateAccess + hasDeleteAccess);
 
   return <Collection
     columns={columns}
     loading={loading}
     endpoint={endpoint}
     openModal={openModal}
-    optionChildren={<Button type="create" onClick={modalCreate} label='create' />}
+    optionChildren={hasCreateAccess ? <Button type="create" onClick={modalCreate} label='Create' /> : null}
   />;
 
   function select(entity: Transaction) {

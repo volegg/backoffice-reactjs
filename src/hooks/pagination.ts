@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { APIPagination, useApi } from "./useApi";
+import { useEffect, useState } from 'react';
+import { APIPagination, useApi } from './useApi';
 
 type PaginationProps = { page: number; pageSize: number; total: number };
 

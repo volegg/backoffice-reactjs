@@ -1,6 +1,6 @@
-import { useState, useCallback, useRef } from "react";
-import { api } from "../api/api";
-import { toCommonError } from "../utils/errorCommon";
+import { useState, useCallback, useRef } from 'react';
+import { api } from '../api/api';
+import { toCommonError } from '../utils/errorCommon';
 
 type GetOptionType<T> = T extends (first: infer FirstArgument) => AnyType ? FirstArgument : never;
 

@@ -1,13 +1,13 @@
-import { useState, useCallback } from "react";
-import { api } from "../api/api";
-import { AuthType } from "../const/auth";
-import { toCommonError } from "../utils/errorCommon";
-import type { User } from "../api/types";
-import { useDispatch } from "../store/hooks";
-import { userSlice } from "../store/user/reducer";
-import { storageToken } from "../utils/storage/items";
-import { useNavigate } from "react-router";
-import { AppRoute } from "../const/routes";
+import { useState, useCallback } from 'react';
+import { api } from '../api/api';
+import { AuthType } from '../const/auth';
+import { toCommonError } from '../utils/errorCommon';
+import type { User } from '../api/types';
+import { useDispatch } from '../store/hooks';
+import { userSlice } from '../store/user/reducer';
+import { storageToken } from '../utils/storage/items';
+import { useNavigate } from 'react-router';
+import { AppRoute } from '../const/routes';
 
 export function useAuth(authType: AuthType) {
   const dispatch = useDispatch();
@@ -26,9 +26,9 @@ export function useAuth(authType: AuthType) {
 
       api.setToken(`Bearer ${result.token}`);
 
-      const user = await api.me();
+      const fetchedUser = await api.me();
 
-      dispatch(userSlice.actions.setLoggedUser(user));
+      dispatch(userSlice.actions.setLoggedUser(fetchedUser));
       storageToken.set(result.token);
       navigate(AppRoute.profile);
 
