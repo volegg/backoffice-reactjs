@@ -6,6 +6,7 @@ export const AppRoute = {
   users: prefix + '/users',
   userView: prefix + '/users/:id',
   transactions: prefix + '/transactions',
+  myTransactions: prefix + '/my-transactions',
   transactionView: prefix + '/transaction/:id',
   login: prefix + '/login',
   logout: prefix + '/logout',

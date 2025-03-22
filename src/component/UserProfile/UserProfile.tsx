@@ -1,21 +1,29 @@
 import { useEffect, useState } from "react";
-import { Avatar, Button, Form, Input } from "antd";
-import { UserOutlined } from '@ant-design/icons';
-
 import { useDispatch, useSelector } from "../../store/hooks"
 import { useApi } from "../../hooks/useApi";
 import { selectLoggedUser } from "../../store/user/selectors";
 import { userSlice } from "../../store/user/reducer";
-import { ErrorComponent } from "../ErrorComponent";
 import { UserView } from "../UserView/UserView";
+import { EditUserProfile } from "./EditUserProfile";
+import { Button } from "../Button";
 
 import './styles.css';
+import { usePermissionCheck } from "../../hooks/usePermissionAccess";
+import { Space } from "antd";
+import { useLogout } from "../../hooks/useLogout";
 
 export function UserProfile() {
   const dispatch = useDispatch();
+
   const user = useSelector(selectLoggedUser);
+
+  const { data } = useApi('updateMe');
+  const { request } = useApi('deleteMe');
+
+  const { logout } = useLogout();
+
   const [isEdit, setEdit] = useState<boolean>(false);
-  const { data, loading, fetch, error, setError } = useApi('updateMe');
+  const hasEditPersmisson = usePermissionCheck('profile:view', 'user:view');
 
   useEffect(() => {
     if (data) {
@@ -24,39 +32,23 @@ export function UserProfile() {
     };
   }, [data]);
 
-  if (!user) {
+  if (!user || !hasEditPersmisson) {
     return null;
   }
 
   return <div className="user-profile">
-    {isEdit ? <>
-      <ErrorComponent messages={error?.messages} onClose={onCloseError} />
-      <br />
-      <Avatar size={64} icon={<UserOutlined />} />
-      <br />
-      <Form name='edit-profile' onFinish={onSaveClick} layout="vertical">
-        <Form.Item
-          name="name"
-          rules={[{ required: true, message: "Minimal name length is 3, maximum - 32", min: 3, max: 32 }]}
-        >
-          <Input prefix={<UserOutlined />} placeholder="New name" value={user.name} />
-        </Form.Item>
-        <br />
-        <Button type='default' onClick={onCancel}>Cancel</Button>&nbsp;&nbsp;&nbsp;
-        <Button type='primary' htmlType='submit' disabled={loading}>Save</Button>
-      </Form>
-    </>
+    {isEdit
+      ? <EditUserProfile cancle={onCancel} />
       : <>
         <UserView user={user} />
         <br />
-        {user.permissions.includes('User:update') ? <Button type='primary' style={{ width: "25%" }} onClick={onEditClick}>Edit info</Button> : null}
+        <Space>
+          {user.permissions.includes('profile:delete') ? <Button type='delete' onClick={onDeleteClick}>Delete profile</Button> : null}
+          {user.permissions.includes('profile:edit') ? <Button type='edit' onClick={onEditClick}>Edit</Button> : null}
+        </Space>
       </>
     }
   </div>;
-
-  function onCloseError() {
-    setError();
-  }
 
   function onCancel() {
     setEdit(false);
@@ -64,10 +56,10 @@ export function UserProfile() {
 
   function onEditClick() {
     setEdit(true);
-    onCloseError();
   }
 
-  function onSaveClick({ name }) {
-    fetch({ name });
+  function onDeleteClick() {
+    request();
+    logout();
   }
 }

@@ -6,13 +6,13 @@ import { PageTransactions } from '../component/Page/PageTransactions';
 import { usePermissionCheck } from '../hooks/usePermissionAccess';
 
 export function StandartRoutes() {
-  const hasTransactionRead = usePermissionCheck('Transaction:read');
+  const hasTransactionRead = usePermissionCheck('profile:transactions');
 
   return <StandarLayout>
     <Routes>
       <Route index element={<UserProfile />} />
       <Route path={AppRoute.profile} element={<UserProfile />}></Route>
-      {hasTransactionRead ? <Route path={AppRoute.transactions} element={<PageTransactions endpoint="transactionsMy" />}></Route> : null}
+      {hasTransactionRead ? <Route path={AppRoute.myTransactions} element={<PageTransactions endpoint="transactionsMy" />}></Route> : null}
     </Routes>
   </StandarLayout>
 }

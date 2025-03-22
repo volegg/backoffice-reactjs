@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { usePermissionCheck } from '../hooks/usePermissionAccess';
 
 type PermissionAccessProps = {
-  permission: string;
+  permission: AvailablePersmissions;
   children: ReactNode;
   noAccecss?: ReactNode;
 }

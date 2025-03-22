@@ -4,6 +4,7 @@ const version = "1"; // note: if storage data structure is changed update versio
 const localStorageWrapper = createStorageWrapper(getLocalStorage());
 
 export const storageToken = localStorageWrapper("token");
+export const storagePagination = localStorageWrapper("pagination");
 
 function getKey(key: string) {
     return `BO_${key}:v${version}`;

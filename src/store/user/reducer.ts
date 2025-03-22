@@ -13,6 +13,8 @@ export const userSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     setLoggedUser(state, { payload }: PayloadAction<User>) {
+      payload.roles.sort();
+      payload.permissions.sort();
       state.user = payload;
     },
     reset() {

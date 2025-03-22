@@ -17,11 +17,14 @@ export const api = {
   login: createHttp<LoginOptions, LoginResponse>('/auth/login'),
   logout: createHttp('/auth/logout', POST),
   signup: createHttp<SignupOptions, SignupResponse>('/auth/register'),
-  me: createHttp<void, User>('/auth/me', GET),
-  updateMe: createHttp<Partial<User>, User>('/users/me', PATCH),
+
+  me: createHttp<void, User>('/profile', GET),
+  updateMe: createHttp<Partial<User>, User>('/profile', PATCH),
+  deleteMe: createHttp<void, User>('/profile', DELETE),
+  transactionsMy: createHttp<PaginationOptions, Paginatted<Transaction>>('/profile/transactions', GET),
+
   users: createHttp<PaginationOptions, Paginatted<User>>('/users', GET),
   transactions: createHttp<PaginationOptions, Paginatted<Transaction>>('/transactions', GET),
-  transactionsMy: createHttp<PaginationOptions, Paginatted<Transaction>>('/transactions/my', GET),
   deleteTransaction: createHttp<string, Transaction>('/transactions/', DELETE),
   deleteUser: createHttp<string, User>('/users/', DELETE),
   createUser: createHttp<CreateUserType, User>('/users', POST),

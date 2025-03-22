@@ -1,15 +1,41 @@
 import { Layout, Menu, MenuProps, theme } from 'antd';
 import { useNavigate } from 'react-router';
 import { LayoutProps } from './types';
-import { MenuLogout, MenuProfile, MenuTransactions, MenuUsers } from '../component/MenuItemComponent';
+import { MenuItem, MenuLogout, MenuMyTransactions, MenuProfile, MenuTransactions, MenuUsers } from '../component/MenuItemComponent';
 import { useLogout } from '../hooks/useLogout';
 import { AppRoute } from '../const/routes';
+import { usePermissionCheck } from '../hooks/usePermissionAccess';
 
 const { Header, Content, Footer } = Layout;
 
 export function AdminLayout({ children }: LayoutProps) {
   const navigate = useNavigate();
   const { logout } = useLogout();
+
+  const hasAccessProfile = usePermissionCheck('profile:view');
+  const hasAccessProfileTransactions = usePermissionCheck('profile:transactions');
+  const hasAccessUserFind = ('user:find');
+  const hasAccessTransactionFind = ('transaction:find');
+
+  const menuItems: MenuItem[] = [];
+
+  if (hasAccessProfile) {
+    menuItems.push(MenuProfile);
+  }
+
+  if (hasAccessProfileTransactions) {
+    menuItems.push(MenuMyTransactions);
+  }
+
+  if (hasAccessUserFind) {
+    menuItems.push(MenuUsers);
+  }
+
+  if (hasAccessTransactionFind) {
+    menuItems.push(MenuTransactions);
+  }
+
+  menuItems.push(MenuLogout);
 
   const onClick: MenuProps['onClick'] = (e) => {
     if (e.key === AppRoute.logout) {
@@ -43,11 +69,11 @@ export function AdminLayout({ children }: LayoutProps) {
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={['2']}
-          items={[MenuProfile, MenuUsers, MenuTransactions, MenuLogout]}
+          items={menuItems}
           style={{ flex: 1, minWidth: 0 }}
         />
       </Header>
-      <Content style={{ padding: '0 48px' }}>
+      <Content>
         <div
           style={{
             height: '100dvh',

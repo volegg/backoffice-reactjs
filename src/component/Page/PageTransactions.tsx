@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tag, Typography } from "antd";
+import { Typography } from "antd";
 import type { Transaction, User } from "../../api/types";
 
 import { renderDate } from "../../utils/render/date";
@@ -8,26 +8,14 @@ import { useTableColumns } from "../Collection/useTableColumns";
 import { useApi } from "../../hooks/useApi";
 import { UserView } from "../UserView/UserView";
 import type { ModalWindowProps } from "../ModalWindow";
-import { TransactionStatus, TransactionSubType } from "../../const/transactions";
 import { Button } from "../Button";
 import { usePermissionCheck } from "../../hooks/usePermissionAccess";
 import { useSelector } from "../../store/hooks";
 import { selectIsAdmin } from "../../store/user/selectors";
+import { StatusTag, SubTypeTag } from "../ViewAsTag/Tags";
 
 type PageTransactionsProps = {
   endpoint: 'transactions' | 'transactionsMy';
-}
-
-const statusColor = {
-  [TransactionStatus.completed]: 'green',
-  [TransactionStatus.pending]: 'yellow',
-  [TransactionStatus.failed]: 'red',
-}
-
-const subTypeColor = {
-  [TransactionSubType.refund]: 'green',
-  [TransactionSubType.purchase]: 'yellow',
-  [TransactionSubType.reward]: 'red',
 }
 
 const { Link } = Typography;
@@ -35,11 +23,11 @@ const { Link } = Typography;
 export function PageTransactions({ endpoint }: PageTransactionsProps) {
   const isAdmin = useSelector(selectIsAdmin);
 
-  const hasReadUserAccess = usePermissionCheck('user:read');
+  const hasReadUserAccess = usePermissionCheck('user:view');
   const hasCreateAccess = usePermissionCheck('transaction:create');
   const hasDeleteAccess = usePermissionCheck('transaction:delete');
 
-  const { data: deleteData, fetch: deleteDoc, loading } = useApi('deleteUser');
+  const { data: deleteData, request: deleteDoc, loading } = useApi('deleteUser');
   const [openModal, setOpenModal] = useState<ModalWindowProps | undefined>();
 
   const actions: Parameters<typeof useTableColumns<Transaction>>[2] = [];
@@ -69,11 +57,10 @@ export function PageTransactions({ endpoint }: PageTransactionsProps) {
 
   const columns = useTableColumns<Transaction>(columnName, {
     type: (_, entity) => <Link onClick={() => select(entity)}>{entity.type}</Link>,
-    subType: (_, { subType }) => <Tag color={subTypeColor[subType]} key={subType}>{subType}</Tag>,
+    subType: (_, { subType }) => <SubTypeTag value={subType} />,
     user: (_, { user }) =>
       <>{hasReadUserAccess ? <Typography.Link onClick={() => selectUser(user)}>{user.email}</Typography.Link> : user.email}</>,
-    status: (_, { status }) =>
-      <Tag color={statusColor[status]} key={status}>{status.toUpperCase()}</Tag>,
+    status: (_, { status }) => <StatusTag value={status} />,
     createdAt: renderDate,
     updatedAt: renderDate,
   }, actions, "" + hasReadUserAccess + hasCreateAccess + hasDeleteAccess);

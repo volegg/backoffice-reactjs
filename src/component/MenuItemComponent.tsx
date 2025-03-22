@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { AppRoute } from '../const/routes';
 
-type MenuItem = Required<MenuProps>['items'][number];
+export type MenuItem = Required<MenuProps>['items'][number];
 
 const { Link } = Typography;
 
@@ -27,6 +27,7 @@ function getItem(
 }
 
 export const MenuProfile = getItem('Profile', AppRoute.profile, <UserOutlined />);
+export const MenuMyTransactions = getItem('My transactions', AppRoute.myTransactions, <ApartmentOutlined />);
 export const MenuTransactions = getItem('Transactions', AppRoute.transactions, <ApartmentOutlined />);
 export const MenuUsers = getItem('Users', AppRoute.users, <TeamOutlined />);
 export const MenuLogout = getItem('Logout', AppRoute.logout, <LogoutOutlined />);

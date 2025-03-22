@@ -8,6 +8,7 @@ import { getStore } from './store/store';
 import { initLogger } from './utils/logger/initLogger';
 
 import './index.css';
+import { storagePagination } from './utils/storage/items';
 
 initLogger();
 
